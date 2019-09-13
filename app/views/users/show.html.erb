@@ -1,11 +1,20 @@
 <div class="row">
   <aside class="col-sm-4">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title"><%= @user.name %></h3>
+    
+        <h3><%= @user.name %>のタスク一覧</h3>
       </div>
+
+<ul>
+  
+  <% @tasks.each do |task| %>
+    <li><%= link_to task.id, task %>: <%= task.content %> &gt; <%= task.status %></li>
+  <% end %>
+  
+</ul>
+
+<%= link_to '新規タスクの投稿', new_task_path %>
       
-    </div>
+   
   </aside>
   <div class="col-sm-8">
     <ul class="nav nav-tabs nav-justified mb-3">

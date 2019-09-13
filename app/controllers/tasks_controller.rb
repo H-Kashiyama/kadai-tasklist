@@ -4,16 +4,24 @@ class TasksController < ApplicationController
   
   
   def index
-    @tasks = Task.all
+  
+    #@tasks =Task.find_by(params[:user_id]).all
+     if logged_in?
+        @tasks = current_user.tasks.all
+     else
+        @tasks = Task.all
+     end
   end
   
   def show
-   
+    @task = Task.find(params[:id])
   end
   
   
   def new
+    
     @task = Task.new
+   
   end
   
   
@@ -30,7 +38,7 @@ class TasksController < ApplicationController
   end
   
   def edit
-      
+      @task = Task.find(params[:id]) 
     
   end
 
@@ -46,7 +54,7 @@ class TasksController < ApplicationController
   end
 
   def destroy
-    
+    @task = Task.find(params[:id]) 
     @task.destroy
 
     flash[:success] = 'task は正常に削除されました'
@@ -59,12 +67,12 @@ class TasksController < ApplicationController
   private
 
   def set_task
-    @task = Task.find(params[:id])
+    @task = Task.find_by(user_id: current_user.id)
   end
   # Strong Parameter
   
   def task_params
-    params.require(:task).permit(:content, :status)
+    params.require(:task).permit(:content, :status, :user_id)
   end
    
    
